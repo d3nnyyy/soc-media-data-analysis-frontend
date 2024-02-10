@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getPosts, textToRGBA } from '../api/api'
+import { getPosts, searchPosts, textToRGBA } from '../api/api'
 import '../styles/PostsSection.css'
 
 export default function PostsSection({ selectedTags, onTagDeselect }) {
@@ -24,13 +24,33 @@ export default function PostsSection({ selectedTags, onTagDeselect }) {
                 return post.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
                         (
                                 selectedTags.length === 0 ||
-                                selectedTags.some(selectedTag => post.tags.some(tag => tag.name === selectedTag))
+                                selectedTags.every(selectedTag => post.tags.some(tag => tag.name === selectedTag))
                         )
         }
         );
 
+        const fetchSearchedPosts = async (query) => {
+                try {
+                        const searchedPosts = await searchPosts(query);
+                        if (searchedPosts && searchedPosts.length > 0) {
+                                setPosts(searchedPosts);
+                        } else {
+                                setPosts([]);
+                        }
+                } catch (error) {
+                        console.error('Error searching posts:', error);
+                }
+        };
+
+
         const handleSearchInputChange = (e) => {
-                setSearchTerm(e.target.value);
+                const query = e.target.value;
+                setSearchTerm(query);
+                if (query.trim() === '') {
+                        setPosts(posts);
+                } else {
+                        fetchSearchedPosts(query);
+                }
         };
 
         const handleTagClick = (tag) => {
@@ -59,13 +79,20 @@ export default function PostsSection({ selectedTags, onTagDeselect }) {
                                         <div key={post.id} className='post'>
                                                 <h2>{post.title}</h2>
                                                 <p>{post.content}</p>
+                                                <div className='post-details'>
+                                                        <span className='source'>{post.Source.name}:</span>
+                                                        <a className='url' href={post.url} target='_blank' rel='noopener noreferrer'>
+                                                                {post.url}
+                                                        </a>
+                                                </div>
                                                 <div className='tags'>
-                                                        {post.tags.map(tag => (
+                                                        {post.tags && post.tags.map(tag => (
                                                                 <span style={{ backgroundColor: textToRGBA(tag.name) }} key={tag.id} className='tag'>{tag.name}</span>
                                                         ))}
                                                 </div>
                                         </div>
                                 ))}
+
                         </div>
                 </div>
         )

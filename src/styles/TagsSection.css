@@ -7,6 +7,14 @@
 }
 
 .tag-list {
+        background-color: #222;
+        padding: 10px;
+        border-radius: 15px;
+}
+
+.tag-list,
+.popular-tags,
+.searched-tags {
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
@@ -15,11 +23,16 @@
 .tag {
         padding: 5px 10px;
         margin: 5px;
-        border-radius: 5px;
+        border-radius: 15px;
         cursor: pointer;
+        border: 0.5px solid #fff;
+}
+
+.tag-list .tag:hover {
+        opacity: 0.7;
 }
 
 .tag.selected {
-        border: 1px solid #fff;
-        border-radius: 4px;
+        border: 2px solid #fff;
+        border-radius: 15px;
 }

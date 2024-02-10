@@ -1,8 +1,6 @@
 import axios from 'axios';
-import postsData from '../data/posts.json'
-import tagsData from '../data/tags.json'
 
-const baseURL = 'http://localhost:8080';
+const baseURL = 'http://localhost:3001';
 
 const api = axios.create({
         baseURL,
@@ -13,41 +11,36 @@ const api = axios.create({
 
 export const getPosts = async () => {
         try {
-                // const response = await api.get('/posts');
-                // return response.data;
-                return postsData;
+                const response = await api.get('/posts');
+                console.log(response.data)
+                return response.data;
         } catch (error) {
                 console.error('getPosts', error);
         }
 }
 
-export const getPost = async (id) => {
+export const searchPosts = async (query) => {
         try {
-                // const response = await api.get(`/posts/${id}`);
-                // return response.data;
-                return postsData.find(post => post.id === id);
+                const response = await api.get(`/posts/search?query=${query}`);
+                return response.data;
         } catch (error) {
-                console.error('getPost', error);
+                console.error('searchPosts', error);
         }
 }
 
-export const getPostsByTag = async (tag) => {
+export const searchTags = async (query) => {
         try {
-                // const response = await api.get(`/posts/tag/${tag}`);
-                // return response.data;
-                console.log(postsData.filter(post => post.tags.includes(tag)))
-                return postsData.filter(post => post.tags.includes(tag));
+                const response = await api.get(`/tags/search?query=${query}&count=10`);
+                return response.data;
         } catch (error) {
-                console.log('getPostsByTag', error);
-                console.error('getPostsByTag', error);
+                console.error('searchTags', error);
         }
 }
 
 export const getTags = async () => {
         try {
-                // const response = await api.get('/tags');
-                // return response.data;
-                return tagsData;
+                const response = await api.get('/tags/popular?count=10');
+                return response.data;
         } catch (error) {
                 console.error('getTags', error);
         }

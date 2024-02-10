@@ -1,27 +1,48 @@
-import React, { useEffect, useState } from 'react'
-import { getTags, textToRGBA } from '../api/api'
+import React, { useEffect, useState } from 'react';
+import { getTags, searchTags, textToRGBA } from '../api/api';
 import '../styles/TagsSection.css';
 
 export default function TagsSection({ onTagSelect, selectedTags, onTagDeselect }) {
-
-        const [tags, setTags] = useState([])
+        const [tags, setTags] = useState([]);
         const [searchTerm, setSearchTerm] = useState('');
+        const [popularTags, setPopularTags] = useState([]);
 
         useEffect(() => {
-                fetchTags();
+                fetchPopularTags();
         }, []);
 
-        const fetchTags = async () => {
+        const fetchPopularTags = async () => {
                 try {
                         const fetchedTags = await getTags();
-                        setTags(fetchedTags);
+                        setPopularTags(fetchedTags);
+                        setTags(fetchedTags); // Set tags initially to popular tags
                 } catch (error) {
-                        console.error('Error fetching tags:', error);
+                        console.error('Error fetching popular tags:', error);
                 }
         };
 
+        const fetchSearchedTags = async (query) => {
+                try {
+                        const searchedTags = await searchTags(query);
+                        if (searchedTags && searchedTags.length > 0) {
+                                setTags(searchedTags);
+                        } else {
+                                setTags([]);
+                        }
+                } catch (error) {
+                        console.error('Error searching tags:', error);
+                }
+        };
+
+
         const handleSearchInputChange = (e) => {
-                setSearchTerm(e.target.value);
+                const query = e.target.value;
+                setSearchTerm(query);
+                if (query.trim() === '') {
+                        setTags(popularTags);
+                } else {
+                        fetchSearchedTags(query);
+                }
         };
 
         const handleTagClick = (tag) => {
@@ -44,19 +65,41 @@ export default function TagsSection({ onTagSelect, selectedTags, onTagDeselect }
                                 />
                         </div>
                         <div className='tag-list'>
-                                {tags.filter(tag => {
-                                        return tag.name.toLowerCase().includes(searchTerm.toLowerCase());
-                                }).map(tag => (
-                                        <div
-                                                onClick={() => handleTagClick(tag.name)}
-                                                style={{ backgroundColor: textToRGBA(tag.name) }}
-                                                key={tag.id}
-                                                className={`tag ${selectedTags.includes(tag.name) ? 'selected' : ''}`}
-                                        >
-                                                {tag.name}
+                                {searchTerm.trim() === '' ? (
+                                        <div className='popular-tags'>
+                                                <h3>Most Popular Tags:</h3>
+                                                {popularTags.map(tag => (
+                                                        <div
+                                                                key={tag.id}
+                                                                onClick={() => handleTagClick(tag.name)}
+                                                                style={{ backgroundColor: textToRGBA(tag.name) }}
+                                                                className={`tag ${selectedTags.includes(tag.name) ? 'selected' : ''}`}
+                                                        >
+                                                                {tag.name}
+                                                        </div>
+                                                ))}
                                         </div>
-                                ))}
+                                ) : (
+                                        <div className='searched-tags'>
+                                                <h3>Found Tags:</h3>
+                                                {tags.length > 0 ?
+                                                        (
+                                                                tags.map(tag => (
+                                                                        <div
+                                                                                key={tag.id}
+                                                                                onClick={() => handleTagClick(tag.name)}
+                                                                                style={{ backgroundColor: textToRGBA(tag.name) }}
+                                                                                className={`tag ${selectedTags.includes(tag.name) ? 'selected' : ''}`}
+                                                                        >
+                                                                                {tag.name}
+                                                                        </div>
+                                                                ))
+                                                        ) : (
+                                                                <div className='no-results'>No tags found</div>
+                                                        )}
+                                        </div>
+                                )}
                         </div>
                 </div>
-        )
+        );
 }
