@@ -1,0 +1,52 @@
+.posts-section {
+        width: 100%;
+        margin: auto;
+}
+
+.search-container {
+        margin-bottom: 20px;
+        position: relative;
+}
+
+.search-container input[type="text"] {
+        padding: 10px;
+        width: 100%;
+        border: 1px solid #fff;
+        border-radius: 5px;
+        box-sizing: border-box;
+        background-color: transparent;
+        color: #fff;
+}
+
+.search-container::before {
+        content: "\1F50E";
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        font-size: 18px;
+        color: #fff;
+}
+
+.search-container input[type="text"]:focus+ ::before {
+        color: #ccc;
+}
+
+
+.post {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        margin-bottom: 20px;
+}
+
+.tags {
+        margin-top: 10px;
+}
+
+.tag {
+        padding: 5px 10px;
+        margin-right: 10px;
+        border-radius: 5px;
+        display: inline-block;
+}

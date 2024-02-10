@@ -1,0 +1,14 @@
+.home {
+        display: flex;
+        padding: 5%;
+}
+
+.left-section {
+        margin: 0 2%;
+        flex: 2;
+}
+
+.right-section {
+        margin: 0 2%;
+        flex: 1;
+}
