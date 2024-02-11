@@ -1,14 +1,19 @@
 .home {
-        display: flex;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 3rem;
         padding: 5%;
 }
 
-.left-section {
-        margin: 0 2%;
-        flex: 2;
-}
-
-.right-section {
-        margin: 0 2%;
-        flex: 1;
+@media(max-width: 640px) {
+        .home {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                padding: 5%;
+        }   
+        
+        .right-section {
+                grid-row-start: 1;
+        }
 }

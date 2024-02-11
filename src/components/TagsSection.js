@@ -15,7 +15,7 @@ export default function TagsSection({ onTagSelect, selectedTags, onTagDeselect }
                 try {
                         const fetchedTags = await getTags();
                         setPopularTags(fetchedTags);
-                        setTags(fetchedTags); // Set tags initially to popular tags
+                        setTags(fetchedTags);
                 } catch (error) {
                         console.error('Error fetching popular tags:', error);
                 }
