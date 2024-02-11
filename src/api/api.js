@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://localhost:3001';
+const baseURL = 'https://nlp.semenchuk.cc';
 
 const api = axios.create({
         baseURL,
@@ -12,7 +12,6 @@ const api = axios.create({
 export const getPosts = async () => {
         try {
                 const response = await api.get('/posts');
-                console.log(response.data)
                 return response.data;
         } catch (error) {
                 console.error('getPosts', error);
