@@ -33,6 +33,16 @@
         color: #ccc;
 }
 
+.post-list-container {
+        max-height: 600px;
+        overflow-y: auto;
+}
+
+.post-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+}
 
 .post {
         display: flex;

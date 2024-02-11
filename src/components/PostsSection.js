@@ -74,24 +74,25 @@ export default function PostsSection({ selectedTags, onTagDeselect }) {
                                         </span>
                                 ))}
                         </div>
-                        <div className='post-list'>
-                                {filteredPosts.map(post => (
-                                        <div key={post.id} className='post'>
-                                                <h2>{post.title} <a className='post-source' href={post.url}>{post.Source.name}</a></h2>
-                                                <p>{post.content}</p>
-                                                <div className='post-info'>
-                                                        <div className='tags'>
-                                                                {post.tags && post.tags.map(tag => (
-                                                                        <span style={{ backgroundColor: textToRGBA(tag.name) }} key={tag.id} className='tag'>{tag.name}</span>
-                                                                ))}
-                                                        </div>
-                                                        <div className='mood'>
-                                                                <span>#{post.Mood.name}</span>
+                        <div className='post-list-container'>
+                                <div className='post-list'>
+                                        {filteredPosts.map(post => (
+                                                <div key={post.id} className='post'>
+                                                        <h2>{post.title} <a className='post-source' href={post.url}>{post.Source.name}</a></h2>
+                                                        <p>{post.content}</p>
+                                                        <div className='post-info'>
+                                                                <div className='tags'>
+                                                                        {post.tags && post.tags.map(tag => (
+                                                                                <span style={{ backgroundColor: textToRGBA(tag.name) }} key={tag.id} className='tag'>{tag.name}</span>
+                                                                        ))}
+                                                                </div>
+                                                                <div className='mood'>
+                                                                        <span>#{post.Mood.name}</span>
+                                                                </div>
                                                         </div>
                                                 </div>
-                                        </div>
-                                ))}
-
+                                        ))}
+                                </div>
                         </div>
                 </div>
         )
